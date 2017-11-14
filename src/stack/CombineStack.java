@@ -38,14 +38,18 @@ public enum CombineStack {
      * @param production 规约产生式的序号
      */
     public void reduct(int production) throws NoItemException {
-        for (int i = 0; i < productions[production].numOfRight; i++) {
+        for (int i = 0; i < productions[production-1].numOfRight; i++) {
             stateStack.pop();
             symbolStack.pop();
         }
-        symbolStack.push(productions[production].left);
+        symbolStack.push(productions[production-1].left);
         int nextState = LR1ParsingTable.goTo(stateStack.peek(), symbolStack.peek());
         stateStack.push(nextState);
         // 打印规约对应的产生式
-        System.out.println(productions[production]);
+        System.out.println(productions[production-1]);
+    }
+
+    public int getNowState() {
+        return stateStack.peek();
     }
 }
